@@ -99,6 +99,8 @@
             this.label23 = new System.Windows.Forms.Label();
             this.label24 = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.numericUpDown45 = new System.Windows.Forms.NumericUpDown();
+            this.label45 = new System.Windows.Forms.Label();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.numericUpDown34 = new System.Windows.Forms.NumericUpDown();
             this.label34 = new System.Windows.Forms.Label();
@@ -127,6 +129,8 @@
             this.numericUpDown32 = new System.Windows.Forms.NumericUpDown();
             this.label32 = new System.Windows.Forms.Label();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.numericUpDown46 = new System.Windows.Forms.NumericUpDown();
+            this.label46 = new System.Windows.Forms.Label();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.numericUpDown35 = new System.Windows.Forms.NumericUpDown();
             this.label35 = new System.Windows.Forms.Label();
@@ -177,10 +181,6 @@
             this.修改点ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.删除点ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.定位点ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.numericUpDown45 = new System.Windows.Forms.NumericUpDown();
-            this.label45 = new System.Windows.Forms.Label();
-            this.numericUpDown46 = new System.Windows.Forms.NumericUpDown();
-            this.label46 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -216,6 +216,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown23)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown24)).BeginInit();
             this.tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown45)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown34)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown33)).BeginInit();
             this.groupBox5.SuspendLayout();
@@ -229,6 +230,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown31)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown32)).BeginInit();
             this.tabPage4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown46)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown35)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown36)).BeginInit();
             this.groupBox7.SuspendLayout();
@@ -246,8 +248,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel4.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown45)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown46)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -1292,6 +1292,31 @@
             this.tabPage3.UseVisualStyleBackColor = true;
             this.tabPage3.Click += new System.EventHandler(this.tabPage3_Click);
             // 
+            // numericUpDown45
+            // 
+            this.numericUpDown45.DecimalPlaces = 2;
+            this.numericUpDown45.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.numericUpDown45.Location = new System.Drawing.Point(373, 158);
+            this.numericUpDown45.Margin = new System.Windows.Forms.Padding(4);
+            this.numericUpDown45.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.numericUpDown45.Name = "numericUpDown45";
+            this.numericUpDown45.Size = new System.Drawing.Size(88, 27);
+            this.numericUpDown45.TabIndex = 78;
+            // 
+            // label45
+            // 
+            this.label45.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label45.Location = new System.Drawing.Point(300, 161);
+            this.label45.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label45.Name = "label45";
+            this.label45.Size = new System.Drawing.Size(73, 21);
+            this.label45.TabIndex = 77;
+            this.label45.Text = "焊锡时间";
+            // 
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
@@ -1718,6 +1743,31 @@
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "tabPage4";
             this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // numericUpDown46
+            // 
+            this.numericUpDown46.DecimalPlaces = 2;
+            this.numericUpDown46.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.numericUpDown46.Location = new System.Drawing.Point(373, 158);
+            this.numericUpDown46.Margin = new System.Windows.Forms.Padding(4);
+            this.numericUpDown46.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.numericUpDown46.Name = "numericUpDown46";
+            this.numericUpDown46.Size = new System.Drawing.Size(88, 27);
+            this.numericUpDown46.TabIndex = 84;
+            // 
+            // label46
+            // 
+            this.label46.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label46.Location = new System.Drawing.Point(300, 161);
+            this.label46.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label46.Name = "label46";
+            this.label46.Size = new System.Drawing.Size(70, 21);
+            this.label46.TabIndex = 83;
+            this.label46.Text = "焊锡时间";
             // 
             // checkBox2
             // 
@@ -2374,56 +2424,6 @@
             this.定位点ToolStripMenuItem.Size = new System.Drawing.Size(123, 24);
             this.定位点ToolStripMenuItem.Text = "定位点";
             // 
-            // numericUpDown45
-            // 
-            this.numericUpDown45.DecimalPlaces = 2;
-            this.numericUpDown45.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.numericUpDown45.Location = new System.Drawing.Point(373, 158);
-            this.numericUpDown45.Margin = new System.Windows.Forms.Padding(4);
-            this.numericUpDown45.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-            this.numericUpDown45.Name = "numericUpDown45";
-            this.numericUpDown45.Size = new System.Drawing.Size(88, 27);
-            this.numericUpDown45.TabIndex = 78;
-            // 
-            // label45
-            // 
-            this.label45.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label45.Location = new System.Drawing.Point(300, 161);
-            this.label45.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label45.Name = "label45";
-            this.label45.Size = new System.Drawing.Size(73, 21);
-            this.label45.TabIndex = 77;
-            this.label45.Text = "焊锡时间";
-            // 
-            // numericUpDown46
-            // 
-            this.numericUpDown46.DecimalPlaces = 2;
-            this.numericUpDown46.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.numericUpDown46.Location = new System.Drawing.Point(373, 158);
-            this.numericUpDown46.Margin = new System.Windows.Forms.Padding(4);
-            this.numericUpDown46.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-            this.numericUpDown46.Name = "numericUpDown46";
-            this.numericUpDown46.Size = new System.Drawing.Size(88, 27);
-            this.numericUpDown46.TabIndex = 84;
-            // 
-            // label46
-            // 
-            this.label46.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label46.Location = new System.Drawing.Point(300, 161);
-            this.label46.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label46.Name = "label46";
-            this.label46.Size = new System.Drawing.Size(70, 21);
-            this.label46.TabIndex = 83;
-            this.label46.Text = "焊锡时间";
-            // 
             // parameter
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -2432,6 +2432,7 @@
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "parameter";
             this.Text = "Solder";
+            this.Load += new System.EventHandler(this.parameter_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
@@ -2468,6 +2469,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown24)).EndInit();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown45)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown34)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown33)).EndInit();
             this.groupBox5.ResumeLayout(false);
@@ -2482,6 +2484,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown32)).EndInit();
             this.tabPage4.ResumeLayout(false);
             this.tabPage4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown46)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown35)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown36)).EndInit();
             this.groupBox7.ResumeLayout(false);
@@ -2499,8 +2502,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.panel4.ResumeLayout(false);
             this.contextMenuStrip1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown45)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown46)).EndInit();
             this.ResumeLayout(false);
 
         }

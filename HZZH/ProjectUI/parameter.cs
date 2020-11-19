@@ -30,10 +30,6 @@ namespace HZZH.ProjectUI
         private XYZ_Jog frm_jog;
         private void Initial()
         {
-            if (ProjectData.Instance.SaveData.processdata.LocatedPointPos == null)
-            {
-                ProjectData.Instance.SaveData.processdata.LocatedPointPos = new PointF4();
-            }
             DataBanding();
             tabControl1.SelectedIndex = 0;
             tabControl1.ItemSize = new Size(0, 1);
@@ -54,8 +50,6 @@ namespace HZZH.ProjectUI
             button9.BackColor = SystemColors.ControlLight;
             button8.BackColor = SystemColors.ControlLight;
             button5.BackColor = SystemColors.ControlLight;
-            LoadDGVData(ProjectData.Instance.SaveData.processdata.PolishCTPos[0], dataGridView1);
-            //button10_Click(button10, null);
         }
         /// <summary>
         /// 右键添加点/暂时不用
@@ -161,7 +155,6 @@ namespace HZZH.ProjectUI
             }
             catch (Exception)
             {
-
                 throw;
             }
         }
@@ -360,10 +353,6 @@ namespace HZZH.ProjectUI
 
             }
         }
-        //private XYZRMove LPolishXYZR = new XYZRMove("左打磨");
-        //private XYZRMove RPolishXYZR = new XYZRMove("右打磨");
-        //private XYZRMove LSolderXYZR = new XYZRMove("左上锡");
-        //private XYZRMove RSolderXYZR = new XYZRMove("右上锡");
         /// <summary>
         /// 四个平台定位点
         /// </summary>
@@ -716,6 +705,11 @@ namespace HZZH.ProjectUI
             {
                 ProjectData.Instance.SaveData.SolderPlatform[1].UseR = true;
             }
+        }
+
+        private void parameter_Load(object sender, EventArgs e)
+        {
+            LoadDGVData(ProjectData.Instance.SaveData.processdata.PolishCTPos[0], dataGridView1);
         }
     }
 }
