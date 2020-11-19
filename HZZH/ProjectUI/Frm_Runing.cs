@@ -726,19 +726,7 @@ namespace HZZH.Logic.UI
 
         private void button5_Click(object sender, EventArgs e)
         {
-
-            //TaskManager.Default.FindTask("左打磨平台").Start();
-            //TaskManager.Default.FindTask("右打磨平台").Start();
-
-            //TaskManager.Default.FindTask("左打磨拍照流程").Start();
-
-            ProVisionEbd.Logic.VisionInteraction.Instance.EnableVision(true);
-            ProVisionEbd.Logic.VisionInteraction.Instance.TriggerCamera(0);
-            ProVisionEbd.Logic.VisionInteraction.Instance.TriggerCamera(1);
-            ProVisionEbd.Logic.VisionInteraction.Instance.TriggerCamera(2);
-            ProVisionEbd.Logic.VisionInteraction.Instance.TriggerCamera(3);
-            //TaskManager.Default.FindTask("左焊锡平台").Start();
-            //TaskMain.LPolishPlatform.Start();
+            TaskManager.Default.FindTask("皮带流程").Start();
         }
 
         private void button6_Click(object sender, EventArgs e)

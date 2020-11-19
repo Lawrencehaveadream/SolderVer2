@@ -88,8 +88,8 @@ namespace HZZH.Logic.LogicMission
                     if (LG.Delay(50))
                     {
                         LG.End();
-                        ProjectData.Instance.SaveData.processdata.PlatformData[0].IsHave = true;//第一个工位有料
-                        for (int i = 1; i < ProjectData.Instance.SaveData.processdata.PlatformData.Count(); i++)//工位信息传递
+                        ProjectData.Instance.SaveData.processdata.PlatformData[0].IsTined = true;//第一个工位有料
+                        for (int i = ProjectData.Instance.SaveData.processdata.PlatformData.Count() - 1; i > 0; i--)//工位信息传递
                         {
                             ProjectData.Instance.SaveData.processdata.PlatformData[i].SetLastPlatformData(ProjectData.Instance.SaveData.processdata.PlatformData[i - 1]);
                         }

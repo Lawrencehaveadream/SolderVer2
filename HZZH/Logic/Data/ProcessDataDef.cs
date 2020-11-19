@@ -17,7 +17,7 @@ namespace HZZH.Logic.Data
         /// <summary>
         /// 平台数据
         /// </summary>
-        public PlatformData[] PlatformData { get; set; } = new PlatformData[8];
+        public List<PlatformData>  PlatformData { get; set;}
         /// <summary>
         /// 工作点
         /// </summary>
@@ -47,11 +47,13 @@ namespace HZZH.Logic.Data
         public SolderDef Agingdataforsolder { get; set; } 
         public ProcessDataDef()
         {
-            LocatedPointPos = new PointF4();
+            PlatformData = new List<PlatformData>();
             for (int i = 0; i < 8; i++)
             {
-                PlatformData[i] = new PlatformData();
+                PlatformData.Add(new PlatformData ());
             }
+            LocatedPointPos = new PointF4();
+            
             Agingdataforpolish = new PolishDef();
             Agingdataforsolder = new SolderDef();
 
