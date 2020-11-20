@@ -25,7 +25,7 @@ using HzControl.Logic;
 using HZZH.Logic.LogicMission;
 using HZZH.Logic.Data;
 using Timer = System.Timers.Timer;
-
+using System.Diagnostics;
 
 namespace UI
 {
@@ -144,9 +144,9 @@ namespace UI
                             frm_Stick.tabControl1.Enabled = true;
                             frm_Stick.toolStripButton2.Enabled = false;
                             frm_Stick.toolStripDropDownButton1.Enabled = true;
-                            frm_Stick.toolStripSplitButton1.Enabled = true;
+                            frm_Stick.toolStripSplitButton1.Enabled = false;
                             frm_Stick.toolStripButton4.Enabled = true;
-                            frm_Stick.toolStripButton5.Enabled = true;
+                            frm_Stick.toolStripButton5.Enabled = false;
                             frm_Stick.toolStripButton6.Enabled = true;
                             frm_Stick.toolStripButton7.Enabled = true;
                             break;
@@ -157,9 +157,9 @@ namespace UI
                             frm_Stick.tabControl1.Enabled = true;
                             frm_Stick.toolStripButton2.Enabled = true;
                             frm_Stick.toolStripDropDownButton1.Enabled = true;
-                            frm_Stick.toolStripSplitButton1.Enabled = true;
+                            frm_Stick.toolStripSplitButton1.Enabled = false;
                             frm_Stick.toolStripButton4.Enabled = true;
-                            frm_Stick.toolStripButton5.Enabled = true;
+                            frm_Stick.toolStripButton5.Enabled = false;
                             frm_Stick.toolStripButton6.Enabled = true;
                             frm_Stick.toolStripButton7.Enabled = true;
                             break;
@@ -207,6 +207,12 @@ namespace UI
                         {
                             //ConfigSpace.ConfigHandle.Instance.Save();
                             Application.Exit();
+                            this.Close();
+                            Process p = Process.GetCurrentProcess();
+                            if (p != null)
+                            {
+                                p.Kill();
+                            }
                         }
                         else
                         {
@@ -314,6 +320,8 @@ namespace UI
                         DeviceRsDef.Q_GreenLed.ON();
                         DeviceRsDef.Q_RedLed.OFF();
                         DeviceRsDef.Q_YellowLed.OFF();
+						ProVisionEbd.Device.CameraManager.Instance.UpdateProcessParameter();
+                        ProVisionEbd.Device.CameraManager.Instance.Start();
                         break;
                     case "FsmPause":
 
@@ -323,6 +331,7 @@ namespace UI
                         DeviceRsDef.Q_GreenLed.OFF();
                         DeviceRsDef.Q_RedLed.OFF();
                         DeviceRsDef.Q_YellowLed.ON();
+						ProVisionEbd.Device.CameraManager.Instance.Stop();
                         break;
                     case "FsmReset":
                         AlarmClear();
@@ -335,6 +344,7 @@ namespace UI
                         DeviceRsDef.Q_YellowLed.Value = Timer.Blink(true, 1000, 1000);
                         DeviceRsDef.Q_GreenLed.OFF();
                         DeviceRsDef.Q_RedLed.OFF();
+						ProVisionEbd.Device.CameraManager.Instance.Stop();
                         break;
                     default:
                         break;
@@ -376,8 +386,10 @@ namespace UI
                 pathRoad = path;
                 {
                     //视觉
-                    ProVisionEbd.Config.CfgManager.Instance.CfgVsPara.StrRoutineDir = pathRoad;
-                }
+                    ProVisionEbd.Config.CfgManager.Instance.StrRoutineDir = pathRoad;
+                    ProVisionEbd.Config.CfgManager.Instance.Load_Template();
+                    frm_Stick.model.InitMatch();               
+				 }
                 //if (ConfigHandle.Instance.SystemDefine == null)
                 //{
                 //    ConfigHandle.Instance.SystemDefine = new ConfigSystem();
@@ -583,6 +595,7 @@ namespace UI
         private void toolStripButton11_Click(object sender, EventArgs e)
         {
             AlarmClear();
+            TaskManager.Default.FSM.Change(FSMStaDef.STOP);
         }
         private void AlarmClear()
         {

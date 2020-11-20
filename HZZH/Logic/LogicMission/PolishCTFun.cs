@@ -57,6 +57,11 @@ namespace HZZH.Logic.LogicMission
                 case 2://XY到拍照位
                     if (Axis.PolishR[ID].status == 0 && Axis.PolishZ[ID].status == 0)
                     {
+                        if (ProjectData.Instance.SaveData.processdata.PolishCTPos[ID][NUM].Ban)
+                        {
+                            NUM++;
+                            break;
+                        }
                         Axis.PolishX[ID].MC_MoveAbs(ProjectData.Instance.SaveData.processdata.PolishCTPos[ID][NUM].X);
                         Axis.PolishY[ID].MC_MoveAbs(ProjectData.Instance.SaveData.processdata.PolishCTPos[ID][NUM].Y);
                         LG.ImmediateStepNext(3);
@@ -84,9 +89,11 @@ namespace HZZH.Logic.LogicMission
                             {
                                 ProjectData.Instance.SaveData.processdata.Agingdataforpolish = new PolishDef();
                             }
+                            _pos.Pos = IOandAxisFun.CameraToPolisherPos(ID, _pos.Pos);
                             ProjectData.Instance.SaveData.processdata.Agingdataforpolish.Z = 20;
                             _pos.polishData = ProjectData.Instance.SaveData.processdata.Agingdataforpolish;
                             NUM++;
+                            
                             ProjectData.Instance.SaveData.processdata.PolishList[ID].Add(_pos);
                             if (NUM < ProjectData.Instance.SaveData.processdata.PolishCTPos[ID].Count)
                             {
@@ -101,16 +108,16 @@ namespace HZZH.Logic.LogicMission
                         else if (true)
                         {
 
-                            foreach (var p in VisionInteraction.Instance.WhichPolish(ID).model)
+                            foreach (var p in VisionInteraction.Instance.WhichPolish(ID).listModel)
                             {
                                 int type = p.modelindex;
                                 int num = 0;
                                 foreach (var item in ProjectData.Instance.SaveData.processdata.WhichPolishMedol(ID))
                                 {
                                     PolishPosData _pos = new PolishPosData();
-                                    _pos.Pos.X = p.Pos[num].X + ProjectData.Instance.SaveData.processdata.PolishCTPos[ID][NUM].X;
-                                    _pos.Pos.Y = p.Pos[num].Y + ProjectData.Instance.SaveData.processdata.PolishCTPos[ID][NUM].Y;
-                                    _pos.Pos.R = p.Pos[num].R;
+                                    _pos.Pos.X = p.ListPos[num].X + ProjectData.Instance.SaveData.processdata.PolishCTPos[ID][NUM].X;
+                                    _pos.Pos.Y = p.ListPos[num].Y + ProjectData.Instance.SaveData.processdata.PolishCTPos[ID][NUM].Y;
+                                    _pos.Pos.R = p.ListPos[num].R;
                                     _pos.polishData = ProjectData.Instance.SaveData.processdata.WhichPolishMedol(ID)[type].polishData[num].Clone();
                                     _pos.Pos = IOandAxisFun.CameraToPolisherPos(ID, _pos.Pos);
                                     num++;

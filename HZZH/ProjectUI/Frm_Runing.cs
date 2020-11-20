@@ -695,6 +695,11 @@ namespace HZZH.Logic.UI
 
         private void toolStripSplitButton1_Click(object sender, EventArgs e)
         {
+            if (!System.IO.Directory.Exists(ProVisionEbd.Config.CfgManager.Instance.StrRoutineDir))
+            {
+                MessageBox.Show("请先打开项目!");
+                return;
+            }
             tabControl1.SelectedIndex = 3;
         }
         private void groupBox2_Enter(object sender, EventArgs e)
@@ -726,7 +731,7 @@ namespace HZZH.Logic.UI
 
         private void button5_Click(object sender, EventArgs e)
         {
-            TaskManager.Default.FindTask("皮带流程").Start();
+            //TaskManager.Default.FindTask("左焊锡平台").Start();
         }
 
         private void button6_Click(object sender, EventArgs e)

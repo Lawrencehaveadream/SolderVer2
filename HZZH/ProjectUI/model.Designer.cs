@@ -30,11 +30,11 @@
         {
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.halconWindowTrainImage = new HalconDotNet.HWindowControl();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.pictureBox5 = new System.Windows.Forms.PictureBox();
-            this.pictureBox4 = new System.Windows.Forms.PictureBox();
-            this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            this.halconWindowTrain = new HalconDotNet.HWindowControl();
+            this.panelPreview = new System.Windows.Forms.Panel();
+            this.halconWindowPreview_1 = new HalconDotNet.HWindowControl();
+            this.halconWindowPreview_2 = new HalconDotNet.HWindowControl();
+            this.halconWindowPreview_0 = new HalconDotNet.HWindowControl();
             this.panel4 = new System.Windows.Forms.Panel();
             this.halconWindowTestImage = new HalconDotNet.HWindowControl();
             this.panel5 = new System.Windows.Forms.Panel();
@@ -51,10 +51,7 @@
             this.buttonAddPoint = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
-            this.panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
+            this.panelPreview.SuspendLayout();
             this.panel4.SuspendLayout();
             this.panel5.SuspendLayout();
             this.panel6.SuspendLayout();
@@ -68,7 +65,7 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 22.37903F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 17.84274F));
             this.tableLayoutPanel1.Controls.Add(this.panel1, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.panel2, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.panelPreview, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.panel4, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.panel5, 2, 0);
             this.tableLayoutPanel1.Controls.Add(this.panel6, 1, 0);
@@ -84,66 +81,74 @@
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.halconWindowTrainImage);
+            this.panel1.Controls.Add(this.halconWindowTrain);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(3, 3);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(586, 351);
             this.panel1.TabIndex = 0;
             // 
-            // halconWindowTrainImage
+            // halconWindowTrain
             // 
-            this.halconWindowTrainImage.BackColor = System.Drawing.Color.Black;
-            this.halconWindowTrainImage.BorderColor = System.Drawing.Color.Black;
-            this.halconWindowTrainImage.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.halconWindowTrainImage.ImagePart = new System.Drawing.Rectangle(0, 0, 640, 480);
-            this.halconWindowTrainImage.Location = new System.Drawing.Point(0, 0);
-            this.halconWindowTrainImage.Name = "halconWindowTrainImage";
-            this.halconWindowTrainImage.Size = new System.Drawing.Size(586, 351);
-            this.halconWindowTrainImage.TabIndex = 3;
-            this.halconWindowTrainImage.WindowSize = new System.Drawing.Size(586, 351);
+            this.halconWindowTrain.BackColor = System.Drawing.Color.Black;
+            this.halconWindowTrain.BorderColor = System.Drawing.Color.Black;
+            this.halconWindowTrain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.halconWindowTrain.ImagePart = new System.Drawing.Rectangle(0, 0, 640, 480);
+            this.halconWindowTrain.Location = new System.Drawing.Point(0, 0);
+            this.halconWindowTrain.Name = "halconWindowTrain";
+            this.halconWindowTrain.Size = new System.Drawing.Size(586, 351);
+            this.halconWindowTrain.TabIndex = 3;
+            this.halconWindowTrain.WindowSize = new System.Drawing.Size(586, 351);
             // 
-            // panel2
+            // panelPreview
             // 
-            this.panel2.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.panel2.Controls.Add(this.pictureBox5);
-            this.panel2.Controls.Add(this.pictureBox4);
-            this.panel2.Controls.Add(this.pictureBox3);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(3, 360);
-            this.panel2.Name = "panel2";
-            this.tableLayoutPanel1.SetRowSpan(this.panel2, 2);
-            this.panel2.Size = new System.Drawing.Size(586, 167);
-            this.panel2.TabIndex = 2;
+            this.panelPreview.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.panelPreview.Controls.Add(this.halconWindowPreview_1);
+            this.panelPreview.Controls.Add(this.halconWindowPreview_2);
+            this.panelPreview.Controls.Add(this.halconWindowPreview_0);
+            this.panelPreview.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelPreview.Location = new System.Drawing.Point(3, 360);
+            this.panelPreview.Name = "panelPreview";
+            this.tableLayoutPanel1.SetRowSpan(this.panelPreview, 2);
+            this.panelPreview.Size = new System.Drawing.Size(586, 167);
+            this.panelPreview.TabIndex = 2;
+            this.panelPreview.SizeChanged += new System.EventHandler(this.panelPreview_SizeChanged);
             // 
-            // pictureBox5
+            // halconWindowPreview_1
             // 
-            this.pictureBox5.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.pictureBox5.Location = new System.Drawing.Point(195, 2);
-            this.pictureBox5.Name = "pictureBox5";
-            this.pictureBox5.Size = new System.Drawing.Size(195, 164);
-            this.pictureBox5.TabIndex = 5;
-            this.pictureBox5.TabStop = false;
+            this.halconWindowPreview_1.BackColor = System.Drawing.Color.Black;
+            this.halconWindowPreview_1.BorderColor = System.Drawing.Color.Black;
+            this.halconWindowPreview_1.ImagePart = new System.Drawing.Rectangle(0, 0, 640, 480);
+            this.halconWindowPreview_1.Location = new System.Drawing.Point(200, 6);
+            this.halconWindowPreview_1.Name = "halconWindowPreview_1";
+            this.halconWindowPreview_1.Size = new System.Drawing.Size(194, 158);
+            this.halconWindowPreview_1.TabIndex = 6;
+            this.halconWindowPreview_1.WindowSize = new System.Drawing.Size(194, 158);
+            this.halconWindowPreview_1.HMouseDown += new HalconDotNet.HMouseEventHandler(this.halconWindowPreview_1_HMouseDown);
             // 
-            // pictureBox4
+            // halconWindowPreview_2
             // 
-            this.pictureBox4.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.pictureBox4.Dock = System.Windows.Forms.DockStyle.Right;
-            this.pictureBox4.Location = new System.Drawing.Point(391, 0);
-            this.pictureBox4.Name = "pictureBox4";
-            this.pictureBox4.Size = new System.Drawing.Size(195, 167);
-            this.pictureBox4.TabIndex = 4;
-            this.pictureBox4.TabStop = false;
+            this.halconWindowPreview_2.BackColor = System.Drawing.Color.Black;
+            this.halconWindowPreview_2.BorderColor = System.Drawing.Color.Black;
+            this.halconWindowPreview_2.ImagePart = new System.Drawing.Rectangle(0, 0, 640, 480);
+            this.halconWindowPreview_2.Location = new System.Drawing.Point(400, 3);
+            this.halconWindowPreview_2.Name = "halconWindowPreview_2";
+            this.halconWindowPreview_2.Size = new System.Drawing.Size(183, 164);
+            this.halconWindowPreview_2.TabIndex = 5;
+            this.halconWindowPreview_2.WindowSize = new System.Drawing.Size(183, 164);
+            this.halconWindowPreview_2.HMouseDown += new HalconDotNet.HMouseEventHandler(this.halconWindowPreview_2_HMouseDown);
             // 
-            // pictureBox3
+            // halconWindowPreview_0
             // 
-            this.pictureBox3.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.pictureBox3.Dock = System.Windows.Forms.DockStyle.Left;
-            this.pictureBox3.Location = new System.Drawing.Point(0, 0);
-            this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(195, 167);
-            this.pictureBox3.TabIndex = 3;
-            this.pictureBox3.TabStop = false;
+            this.halconWindowPreview_0.BackColor = System.Drawing.Color.Black;
+            this.halconWindowPreview_0.BorderColor = System.Drawing.Color.Black;
+            this.halconWindowPreview_0.ImagePart = new System.Drawing.Rectangle(0, 0, 640, 480);
+            this.halconWindowPreview_0.Location = new System.Drawing.Point(3, 3);
+            this.halconWindowPreview_0.Name = "halconWindowPreview_0";
+            this.halconWindowPreview_0.Size = new System.Drawing.Size(191, 155);
+            this.halconWindowPreview_0.TabIndex = 4;
+            this.halconWindowPreview_0.WindowSize = new System.Drawing.Size(191, 155);
+            this.halconWindowPreview_0.HMouseDown += new HalconDotNet.HMouseEventHandler(this.halconWindowPreview_0_HMouseDown);
             // 
             // panel4
             // 
@@ -314,10 +319,7 @@
             this.Shown += new System.EventHandler(this.model_Shown);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
-            this.panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
+            this.panelPreview.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
             this.panel5.ResumeLayout(false);
             this.panel6.ResumeLayout(false);
@@ -328,7 +330,7 @@
         #endregion
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Panel panelPreview;
         private System.Windows.Forms.Button buttonTestPos;
         private System.Windows.Forms.Button buttonRemovePoint;
         private System.Windows.Forms.Button buttonAddPoint;
@@ -342,10 +344,10 @@
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Panel panel6;
         private System.Windows.Forms.Button buttonGetTrainImage;
-        private System.Windows.Forms.PictureBox pictureBox5;
-        private System.Windows.Forms.PictureBox pictureBox4;
-        private System.Windows.Forms.PictureBox pictureBox3;
-        private HalconDotNet.HWindowControl halconWindowTrainImage;
+        private HalconDotNet.HWindowControl halconWindowTrain;
         private HalconDotNet.HWindowControl halconWindowTestImage;
+        private HalconDotNet.HWindowControl halconWindowPreview_1;
+        private HalconDotNet.HWindowControl halconWindowPreview_2;
+        private HalconDotNet.HWindowControl halconWindowPreview_0;
     }
 }

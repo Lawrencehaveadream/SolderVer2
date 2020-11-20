@@ -21,33 +21,88 @@ using System.Collections;
 using System.IO;
 using ProVisionEbd.Vision.Parameter;
 using ProVision.MatchModel;
+using ProVisionEbd.Config;
+using System.IO;
 
 namespace HZZH.ProjectUI
 {
     public partial class model : Form
     {
-        /// <summary>
-        /// 标志当前回调函数获取到的图片是训练图片还是测试图片
-        /// </summary>
-        private bool _isImgForTrain = true;
+        private bool _isImgForTrain = false;     //标志当前回调函数获取到的图片是训练图片还是测试图片
+        private bool _isSimulating = false;     //是否在不能通过相机采图的情况下运行，若是，则采图的地方会提供图片文件选择窗口模拟采图
+        private List<List<FrmMatchModel>> _listListFrmMatch = new List<List<FrmMatchModel>>();   //匹配助手
         public model()
         {
             InitializeComponent();
             Initial();
+        }
+        public void InitMatch()
+        {
+            try
+            {
+                _listListFrmMatch = new List<List<FrmMatchModel>>();
+                TemplateParam tp = CfgManager.Instance.TemplateParam;
+                int cameraCnt = tp.ListCameraTemplateInfo.Count();
+                int templateCnt = tp.ListCameraTemplateInfo.First().ListTemplate.Count();
+                for (int iCam=0; iCam< cameraCnt; ++iCam)
+                {
+                    List<FrmMatchModel> lfm = new List<FrmMatchModel>();
+                    this._listListFrmMatch.Add(lfm);
+                    for (int iT =0; iT < templateCnt; ++iT)
+                    {
+                        string path =  CfgManager.Instance.GetPath_Template(iCam, iT);
+                        if (!Directory.Exists(path))  Directory.CreateDirectory(path);
+                        FrmMatchModel frm = new FrmMatchModel("zh-CN", path, null, true);
+                        frm.CtrlMatchModel.MatchAssistant.LoadShapeModel(path);
+                        lfm.Add(frm);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+        private void updateTrainWindow()
+        {
+            showTrainImage();
+            showTrainPoint();
         }
         private void showTrainImage()
         {
             try {
                 HTuple imgW, imgH;
                 HOperatorSet.GetImageSize(_imgTrain, out imgW, out imgH);
-                this.halconWindowTrainImage.HalconWindow.SetPart(0, 0, imgH - 1, imgW - 1);
-                this.halconWindowTrainImage.HalconWindow.DispObj(_imgTrain);
+                this.halconWindowTrain.HalconWindow.SetPart(0, 0, imgH - 1, imgW - 1);
+                this.halconWindowTrain.HalconWindow.DispObj(_imgTrain);
             }
             catch (Exception ex)
             {
 
             }
         }
+
+        private void showTrainPoint()
+        {
+            HObject objTemp = null;
+            try
+            {
+                TemplateInfo tInfo = CfgManager.Instance.TemplateParam.GetTemplateInfo(this._curCameraIndex, this._curTemplateIndex);
+                if (tInfo == null || tInfo.ListPos.Count()<=0 ) return;
+                System.Drawing.Point pt = tInfo.ListPos[0];
+                FreeObj(ref objTemp);
+                HOperatorSet.GenCrossContourXld(out objTemp, pt.Y, pt.X, 300, 0);
+                this.halconWindowTrain.HalconWindow.SetColor("green");
+                this.halconWindowTrain.HalconWindow.DispObj(objTemp);
+            }
+            catch (Exception ex)
+            {
+            }
+            finally
+            {
+                FreeObj(ref objTemp);
+            }
+        }
+
         private void showTestImage()
         {
             try
@@ -79,15 +134,19 @@ namespace HZZH.ProjectUI
             try
             {
                 //显示现有训练图片
-                string path = GetPath_Routinue();
-                FrmMatchModel fmm = getMatchModel(false);
+                string path = GetPath_Template(this._curCameraIndex,this._curTemplateIndex);
+                FrmMatchModel fmm = getMatchModel();
                 if (fmm == null) return false;
                 ShapeModelAssistant ass = fmm.CtrlMatchModel.MatchAssistant;
-                bool ok = (ass.LoadShapeModel(path) && ass.TrainImage != null && ass.TrainImage.IsInitialized());
-                if (!ok) return false;
+                bool ok = (ass.TrainImage != null && ass.TrainImage.IsInitialized());
+                if (!ok)
+                {
+                    this.halconWindowTrain.HalconWindow.ClearWindow();
+                    return false;
+                }
                 FreeObj(ref this._imgTrain);
                 this._imgTrain = ass.TrainImage.Clone();
-                showTrainImage();
+                updateTrainWindow();
                 return true;
             }
             catch(Exception ex)
@@ -98,24 +157,14 @@ namespace HZZH.ProjectUI
         private void model_Shown(object sender, EventArgs e)
         {
         }
-        private FrmMatchModel getMatchModel(bool isCreate)
+        private FrmMatchModel getMatchModel()
         {
             try
             {
-                string path = GetPath_Routinue();
-                if (string.IsNullOrEmpty(path)) return null;
-                FrmMatchModel matchModel = null;
-                if (isCreate)
-                {
-                    matchModel = new FrmMatchModel("zh-CN", this._imgTrain, path, null, true);
-                }
-                else
-                {
-                    matchModel = new FrmMatchModel("zh-CN", null, true);
-                    matchModel.CtrlMatchModel.MatchAssistant.LoadShapeModel(path);
-                }
-
-                return matchModel;
+                if (!isCurCameraValid()) return null;
+                List<FrmMatchModel> listFMM = _listListFrmMatch[this._curCameraIndex];
+                if (this._curTemplateIndex < 0 || this._curTemplateIndex >= listFMM.Count()) return null;
+                return listFMM[this._curTemplateIndex];
             }
             catch(Exception ex)
             {
@@ -124,10 +173,6 @@ namespace HZZH.ProjectUI
         }
         private void Initial()
         {
-            EnsurePathExist();
-            //加载设定的点
-
-
 
 
 
@@ -236,7 +281,8 @@ namespace HZZH.ProjectUI
                 dataGridView.CurrentCell = dataGridView.Rows[rownum - 1].Cells[0];
             }
         }
-        private int _curCameraIndex = -1;    //默认0号相机
+        private int _curCameraIndex = -1;       //当前相机下标
+        private int _curTemplateIndex = 0;      //当前模板下标
         private Camera getCurCamera()
         {
             try
@@ -289,6 +335,21 @@ namespace HZZH.ProjectUI
                     MessageBox.Show("请先选择相机!");
                     return;
                 }
+                if (this._isSimulating)
+                {//模拟采图
+                    OpenFileDialog ofd = new OpenFileDialog();
+                    if (string.IsNullOrEmpty(_strLastImagePath)) _strLastImagePath = Directory.GetCurrentDirectory();
+                    ofd.InitialDirectory = _strLastImagePath;
+                    ofd.ShowDialog();
+                    string fn = ofd.FileName;
+                    if (!File.Exists(fn)) return;
+                    _strLastImagePath = Directory.GetParent(fn).FullName;
+                    FreeObj(ref this._imgTrain);
+                    HOperatorSet.ReadImage(out _imgTrain, fn);
+                    updateTrainWindow();
+                    return;
+                }
+
                 this._isImgForTrain = true;
                 setImageGrabCallBack(true);
                 ProVisionEbd.Logic.VisionInteraction.Instance.TriggerCamera(this._curCameraIndex);
@@ -326,7 +387,7 @@ namespace HZZH.ProjectUI
                 if (this._isImgForTrain)
                 {
                     TransObj(ref hoImage, ref this._imgTrain);
-                    showTrainImage();
+                    updateTrainWindow();
                 }
                 else
                 {
@@ -344,18 +405,32 @@ namespace HZZH.ProjectUI
         }
         public string GetPath_Routinue()
         {
-            string str = ProVisionEbd.Config.CfgManager.Instance.CfgVsPara.StrRoutineDir;
-            if (!Directory.Exists(str)) return null;
-            return str;
-            //return "Routine/Test";
+            return ProVisionEbd.Config.CfgManager.Instance.GetPath_Routinue();
+        }
+
+        /// <summary>
+        /// 获取每个程式中对应相机的目录，该目录用于保存每个相机各自相关的数据
+        /// </summary>
+        /// <param name="camIndex"></param>
+        /// <returns></returns>
+        public string GetPath_Camera(int camIndex)
+        {
+            return ProVisionEbd.Config.CfgManager.Instance.GetPath_Camera(camIndex);
+        }
+        public string GetPath_Template(int camIndex, int templateIndex)
+        {
+            return ProVisionEbd.Config.CfgManager.Instance.GetPath_Template(camIndex, templateIndex);
         }
         private void EnsurePathExist()
         {
             try
             {
-                string path = GetPath_Routinue();
-                if (string.IsNullOrEmpty(path)) return;
-                Directory.CreateDirectory(path);
+                for (int i = 0; i < 4; ++i)
+                {
+                    string path = GetPath_Camera(0);
+                    if (string.IsNullOrEmpty(path)) return;
+                    Directory.CreateDirectory(path);
+                }
             }
             catch(Exception ex)
             {
@@ -372,10 +447,18 @@ namespace HZZH.ProjectUI
                     MessageBox.Show("请先设置训练图片!");
                     return;
                 }
-                FrmMatchModel matchModel = getMatchModel(true);
-                if (matchModel == null) return;
+                string path = CfgManager.Instance.GetPath_Template(this._curCameraIndex, this._curTemplateIndex);
+                if (string.IsNullOrEmpty(path)) return;
+                FrmMatchModel matchModel = new FrmMatchModel("zh-CN", _imgTrain, path, null, true);
                 matchModel.ShowDialog();
-                 //HTuple roiData = matchModel.CtrlMatchModel.MatchAssistant.ModelPose;
+                //HTuple roiData = matchModel.CtrlMatchModel.MatchAssistant.ModelPose;
+
+                if (!isCurCameraValid()) return;
+                List<FrmMatchModel> listInfo = _listListFrmMatch[this._curCameraIndex];
+                if (this._curTemplateIndex < 0 || this._curTemplateIndex >= listInfo.Count()) return;
+                listInfo[this._curTemplateIndex].CtrlMatchModel.MatchAssistant.LoadShapeModel(path);
+                UpdateUI_RefreshPreviewWindow();
+                return;
             }
             catch (Exception ex)
             {
@@ -408,14 +491,14 @@ namespace HZZH.ProjectUI
                     HTuple ROIData = ((ProVision.InteractiveROI.ROI)list[0]).GetModelData();
                     if (ROIData.Length == 2)
                     {
-                        AppVisionProcessParam param = ProVisionEbd.Config.CfgManager.Instance.CfgVsPara.GetParam(this._curCameraIndex);
-                        if (param != null)
+                        TemplateInfo info = ProVisionEbd.Config.CfgManager.Instance.TemplateParam.GetTemplateInfo(this._curCameraIndex, this._curTemplateIndex);
+                        if (info != null)
                         {
-                            param.SpecifiedRow = (int)ROIData[0].D;
-                            param.SpecifiedCol = (int)ROIData[1].D;
-                            showTrainImage();
-                            this.halconWindowTrainImage.HalconWindow.SetColor("green");
-                            this.halconWindowTrainImage.HalconWindow.DispObj(ROI);
+                            int row = (int)ROIData[0].D;
+                            int col = (int)ROIData[1].D;
+                            info.ListPos.Clear();
+                            info.ListPos.Add(new System.Drawing.Point(col, row));
+                            updateTrainWindow();
                         }
                     }
                     else
@@ -453,6 +536,7 @@ namespace HZZH.ProjectUI
             }
 
         }
+        string _strLastImagePath = null;
         private void buttonTestPos_Click(object sender, EventArgs e)
         {
             HObject objTemp = null;
@@ -469,40 +553,55 @@ namespace HZZH.ProjectUI
                     MessageBox.Show("请先设置训练图片!");
                     return;
                 }
-                this._isImgForTrain = false;
-                setImageGrabCallBack(true);
-                ProVisionEbd.Logic.VisionInteraction.Instance.TriggerCamera(this._curCameraIndex);
-                FreeObj(ref this._imgTest);
-                DateTime dtStart = DateTime.Now;
-                //等待获取到图片
-                while (true)
+                if (this._isSimulating)
+                {//通过选择图片模拟采图
+                    OpenFileDialog ofd = new OpenFileDialog();
+                    if (string.IsNullOrEmpty(_strLastImagePath)) _strLastImagePath = Directory.GetCurrentDirectory();
+                    ofd.InitialDirectory = _strLastImagePath;
+                    ofd.ShowDialog();
+                    string fn = ofd.FileName;
+                    if (!File.Exists(fn)) return;
+                    _strLastImagePath = Directory.GetParent(fn).FullName;
+                    FreeObj(ref this._imgTest);
+                    HOperatorSet.ReadImage(out _imgTest, fn);
+                }
+                else
                 {
-                    if (this._imgTest != null) break;
-                    if (DateTime.Now - dtStart > new TimeSpan(0,0,5))
+                    this._isImgForTrain = false;
+                    setImageGrabCallBack(true);
+                    ProVisionEbd.Logic.VisionInteraction.Instance.TriggerCamera(this._curCameraIndex);
+                    FreeObj(ref this._imgTest);
+                    DateTime dtStart = DateTime.Now;
+                    //等待获取到图片
+                    while (true)
                     {
-                        MessageBox.Show("获取图片失败!");
-                        return;
+                        if (this._imgTest != null) break;
+                        if (DateTime.Now - dtStart > new TimeSpan(0, 0, 5))
+                        {
+                            MessageBox.Show("获取图片失败!");
+                            return;
+                        }
+                        Application.DoEvents();
+                        System.Threading.Thread.Sleep(20);
                     }
-                    Application.DoEvents();
-                    System.Threading.Thread.Sleep(20);
                 }
                 showTestImage();
-                FrmMatchModel match = getMatchModel(false);
+                FrmMatchModel match = getMatchModel();
                 if (match == null) return;
                 ShapeModelAssistant ass = match.CtrlMatchModel.MatchAssistant;
                 ass.SetTestImage(this._imgTest);
-                if (!ass.DetectShapeModel())
+                if (!ass.DetectShapeModel() || ass.Result.Row==null || ass.Result.Row.Length<=0)
                 {
                     MessageBox.Show("匹配模板失败!");
                     return;
                 }
                 FreeObj(ref objTemp);
 
-                AppVisionProcessParam param = ProVisionEbd.Config.CfgManager.Instance.CfgVsPara.GetParam(this._curCameraIndex);
-                if (param == null) return;
+                TemplateInfo info = ProVisionEbd.Config.CfgManager.Instance.TemplateParam.GetTemplateInfo(this._curCameraIndex, this._curTemplateIndex);
+                if (info == null || info.ListPos==null || info.ListPos.Count() <= 0) return;
 
-                double row = param.SpecifiedRow;
-                double col = param.SpecifiedCol;
+                double row = info.ListPos.First().Y;
+                double col = info.ListPos.First().X;
                 if (!Follow(ass, ref row, ref col)) return;
 
                 HOperatorSet.GenCrossContourXld(out objTemp, row, col, 300, 0);
@@ -539,13 +638,134 @@ namespace HZZH.ProjectUI
             try
             {
                 this._curCameraIndex = index;
-                ProVisionEbd.Config.CfgManager.Instance.CfgVsPara.LoadPoint(this._curCameraIndex);
                 loadAndShowCurTrainFile();
+                UpdateUI_RefreshPreviewWindow();
             }
             catch(Exception ex)
             {
 
             }
+        }
+
+        private void halconWindowPreview_0_HMouseDown(object sender, HMouseEventArgs e)
+        {
+            switchPreview(0);
+        }
+
+        private void halconWindowPreview_1_HMouseDown(object sender, HMouseEventArgs e)
+        {
+            switchPreview(1);
+        }
+
+        private void halconWindowPreview_2_HMouseDown(object sender, HMouseEventArgs e)
+        {
+            switchPreview(2);
+        }
+        private void switchPreview(int index)
+        {
+            this._curTemplateIndex = index;
+            UpdateUI_RefreshPreviewWindow();
+            updateTrainWindow();
+        }
+        private void updateUI_LayoutPreviewWindow()
+        {
+            int margin = 5;
+            Size size = panelPreview.Size;
+            int width = (size.Width - margin*2) / 3;
+            int height = size.Height;
+            this.halconWindowPreview_0.SetBounds(0,0,width, height);
+            this.halconWindowPreview_1.SetBounds(width+ margin, 0, width, height);
+            this.halconWindowPreview_2.SetBounds((width+ margin) *2, 0, width, height);
+        }
+        private void FreshPreviewWindow(FrmMatchModel fmm, HWindow window, bool isActive)
+        {
+            HObject objTemp = null, objTemp1=null;
+            try
+            {
+                HObject img = fmm.CtrlMatchModel.MatchAssistant.TrainImage;
+                HObject region = fmm.CtrlMatchModel.MatchAssistant.ModelSearchRegion;
+                if (img != null && img.IsInitialized()
+                    && region != null && region.IsInitialized())
+                {
+                    FreeObj(ref objTemp);
+                    HOperatorSet.ReduceDomain(img, region, out objTemp);
+                    HTuple r1, c1, r2, c2;
+                    HOperatorSet.SmallestRectangle1(region, out r1, out c1, out r2, out c2);
+                    window.SetPart(r1, c1, r2, c2);
+                    window.DispObj(objTemp);
+                    if (isActive)
+                    {
+                        FreeObj(ref objTemp);
+                        HOperatorSet.Boundary(region, out objTemp, "outer");
+                        FreeObj(ref objTemp1);
+                        HOperatorSet.DilationRectangle1(objTemp, out objTemp1, 15, 15);
+                        window.SetColor("red");
+                        window.DispObj(objTemp1);
+                    }
+                    return;
+                }
+                else
+                {
+                    window.ClearWindow();
+                }
+            }
+            catch(Exception ex)
+            {
+            }
+            finally
+            {
+                FreeObj(ref objTemp);
+                FreeObj(ref objTemp1);
+            }
+        }
+        private void UpdateUI_RefreshPreviewWindow()
+        {
+            if (!isCurCameraValid()) return;
+            try
+            {
+                List<FrmMatchModel> listInfo = _listListFrmMatch[this._curCameraIndex];
+                FrmMatchModel fmm = null;
+                HWindow window = null;
+                if (listInfo.Count() > 0)
+                {
+                    fmm = listInfo[0];
+                    window = this.halconWindowPreview_0.HalconWindow;
+                    FreshPreviewWindow(fmm, window, this._curTemplateIndex==0);
+                }
+                else
+                {
+                    this.halconWindowPreview_0.HalconWindow.ClearWindow();
+                }
+
+                if (listInfo.Count() > 1)
+                {
+                    fmm = listInfo[1];
+                    window = this.halconWindowPreview_1.HalconWindow;
+                    FreshPreviewWindow(fmm, window, this._curTemplateIndex == 1);
+                }
+                else
+                {
+                    this.halconWindowPreview_1.HalconWindow.ClearWindow();
+                }
+
+                if (listInfo.Count() > 2)
+                {
+                    fmm = listInfo[2];
+                    window = this.halconWindowPreview_2.HalconWindow;
+                    FreshPreviewWindow(fmm, window, this._curTemplateIndex == 2);
+                }
+                else
+                {
+                    this.halconWindowPreview_2.HalconWindow.ClearWindow();
+                }
+            }
+            catch(Exception ex)
+            {
+            }
+        }
+        private void panelPreview_SizeChanged(object sender, EventArgs e)
+        {
+            updateUI_LayoutPreviewWindow();
         }
     }
 }

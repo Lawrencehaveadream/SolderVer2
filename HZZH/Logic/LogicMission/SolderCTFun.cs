@@ -56,6 +56,11 @@ namespace HZZH.Logic.LogicMission
                 case 2://XY到位
                     if (Axis.SolderR[ID].status == 0 && Axis.SolderZ[ID].status == 0)
                     {
+                        if (ProjectData.Instance.SaveData.processdata.SolderCTPos[ID][NUM].Ban)
+                        {
+                            NUM++;
+                            break;
+                        }
                         Axis.SolderX[ID].MC_MoveAbs(ProcessData.SolderCTPos[ID][NUM].X);
                         Axis.SolderY[ID].MC_MoveAbs(ProcessData.SolderCTPos[ID][NUM].Y);
                         LG.ImmediateStepNext(3);
@@ -82,6 +87,8 @@ namespace HZZH.Logic.LogicMission
                                 ProjectData.Instance.SaveData.processdata.Agingdataforsolder = new SolderDef();
                             }
                             ProjectData.Instance.SaveData.processdata.Agingdataforsolder.Z = 25;
+
+                            _pos.Pos = IOandAxisFun.CameraToSolderPos(ID, _pos.Pos);
                             _pos.SolderData = ProjectData.Instance.SaveData.processdata.Agingdataforsolder;
                             ProcessData.SolderList[ID].Add(_pos);//增加到list里
                             NUM++;
@@ -97,7 +104,7 @@ namespace HZZH.Logic.LogicMission
                         }
                         else if (true)
                         {
-                            foreach (var p in VisionInteraction.Instance.WhichSolder(ID).model)
+                            foreach (var p in VisionInteraction.Instance.WhichSolder(ID).listModel)
                             {
                                 int type = p.modelindex;
                                 int num = 0;
@@ -110,29 +117,28 @@ namespace HZZH.Logic.LogicMission
 
                                     float x = 0;
                                     float y = 0;
-                                    float cAng = (float)(p.Pos[num].R * Math.PI / 180);
+                                    float cAng = (float)(p.ListPos[num].R * Math.PI / 180);
                                     if (ProjectData.Instance.SaveData.SolderPlatform[ID].UseR)//使用旋转中心
                                     {
                                         x = p.ModelPos.X + ProjectData.Instance.SaveData.processdata.SolderCTPos[ID][NUM].X;
                                         y = p.ModelPos.Y + ProjectData.Instance.SaveData.processdata.SolderCTPos[ID][NUM].Y;
                                         
-                                        IOandAxisFun.Transorm(ID , x, y,  x + p.Pos[num].X, y + p.Pos[num].Y, cAng, out Tx, out Ty);
+                                        IOandAxisFun.Transorm(ID , x, y,  x + p.ListPos[num].X, y + p.ListPos[num].Y, cAng, out Tx, out Ty);
                                     }
                                     else
                                     {
-                                        Tx= p.Pos[num].X + ProjectData.Instance.SaveData.processdata.SolderCTPos[ID][NUM].X;
-                                        Ty = p.Pos[num].Y + ProjectData.Instance.SaveData.processdata.SolderCTPos[ID][NUM].Y;
+                                        Tx= p.ListPos[num].X + ProjectData.Instance.SaveData.processdata.SolderCTPos[ID][NUM].X;
+                                        Ty = p.ListPos[num].Y + ProjectData.Instance.SaveData.processdata.SolderCTPos[ID][NUM].Y;
                                         Tr = 0;
                                     }
                                     SolderPosData _pos = new SolderPosData();
-                                    SolderPosData cpos = new SolderPosData();
                                     _pos.Pos.X = Tx;
                                     _pos.Pos.Y = Ty;
                                     _pos.Pos.R = Tr;
-                                    cpos.Pos = IOandAxisFun.CameraToSolderPos(ID, _pos.Pos);
-                                    cpos.SolderData = ProjectData.Instance.SaveData.processdata.WhichSolderMedol(ID)[type].solderdata[num].Clone();
+                                    _pos.Pos = IOandAxisFun.CameraToSolderPos(ID, _pos.Pos);
+                                    _pos.SolderData = ProjectData.Instance.SaveData.processdata.WhichSolderMedol(ID)[type].solderdata[num].Clone();
                                     num++;
-                                    SolderOrderList.Add(cpos);//增加到list里
+                                    SolderOrderList.Add(_pos);//增加到list里
                                 }
                             }
                             foreach (SolderPosData data in SolderOrderList.OrderBy(a => a.Pos.X).ThenBy(a => a.Pos.Y))//排序

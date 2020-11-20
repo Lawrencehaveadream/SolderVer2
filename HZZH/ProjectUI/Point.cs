@@ -36,9 +36,9 @@ namespace HZZH.ProjectUI
         {
             int count = 0;
             this.treeView1.Nodes.Clear();
-            foreach (Model p in f4s.model)
+            foreach (Model p in f4s.listModel)
             {
-                foreach (var item in p.Pos)
+                foreach (var item in p.ListPos)
                 {
                     count++;
                     this.treeView1.Nodes[0].Nodes.Add(new TreeNode("点位" + count.ToString() +
