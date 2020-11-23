@@ -121,7 +121,6 @@
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "Point";
             this.Text = "Point";
-            this.Load += new System.EventHandler(this.Point_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);

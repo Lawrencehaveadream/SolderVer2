@@ -395,16 +395,16 @@ namespace HZZH.ProjectUI
                 switch (this._curCameraIndex)//四个平台不同的模板添加的点的参数
                 {
                     case 0:
-                        ProjectData.Instance.SaveData.processdata.LPolishModel[_curCameraIndex].polishData.Add(new PolishDef());
+                        ProjectData.Instance.SaveData.processdata.LPolishModel[_curTemplateIndex].polishData.Add(new PolishDef());
                         break;
                     case 1:
-                        ProjectData.Instance.SaveData.processdata.RPolishModel[_curCameraIndex].polishData.Add(new PolishDef());
+                        ProjectData.Instance.SaveData.processdata.RPolishModel[_curTemplateIndex].polishData.Add(new PolishDef());
                         break;
                     case 2:
-                        ProjectData.Instance.SaveData.processdata.LSolderModel[_curCameraIndex].solderdata.Add(new SolderDef());
+                        ProjectData.Instance.SaveData.processdata.LSolderModel[_curTemplateIndex].solderdata.Add(new SolderDef());
                         break;
                     case 3:
-                        ProjectData.Instance.SaveData.processdata.RSolderModel[_curCameraIndex].solderdata.Add(new SolderDef());
+                        ProjectData.Instance.SaveData.processdata.RSolderModel[_curTemplateIndex].solderdata.Add(new SolderDef());
                         break;
                 }
                 if (!CheckRoutinueValid()) return;

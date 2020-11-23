@@ -144,9 +144,9 @@ namespace UI
                             frm_Stick.tabControl1.Enabled = true;
                             frm_Stick.toolStripButton2.Enabled = false;
                             frm_Stick.toolStripDropDownButton1.Enabled = true;
-                            frm_Stick.toolStripSplitButton1.Enabled = false;
+                            frm_Stick.toolStripSplitButton1.Enabled = true;
                             frm_Stick.toolStripButton4.Enabled = true;
-                            frm_Stick.toolStripButton5.Enabled = false;
+                            frm_Stick.toolStripButton5.Enabled = true;
                             frm_Stick.toolStripButton6.Enabled = true;
                             frm_Stick.toolStripButton7.Enabled = true;
                             break;
@@ -157,9 +157,9 @@ namespace UI
                             frm_Stick.tabControl1.Enabled = true;
                             frm_Stick.toolStripButton2.Enabled = true;
                             frm_Stick.toolStripDropDownButton1.Enabled = true;
-                            frm_Stick.toolStripSplitButton1.Enabled = false;
+                            frm_Stick.toolStripSplitButton1.Enabled = true;
                             frm_Stick.toolStripButton4.Enabled = true;
-                            frm_Stick.toolStripButton5.Enabled = false;
+                            frm_Stick.toolStripButton5.Enabled = true;
                             frm_Stick.toolStripButton6.Enabled = true;
                             frm_Stick.toolStripButton7.Enabled = true;
                             break;

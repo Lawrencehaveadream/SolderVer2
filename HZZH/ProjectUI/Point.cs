@@ -41,10 +41,11 @@ namespace HZZH.ProjectUI
             foreach (PolishModel p in f4s)
             {
                 modelindex++;
+                this.treeView1.Nodes[num].Nodes.Add(new TreeNode("模板" + modelindex.ToString()));
                 foreach (PolishDef item in p.polishData)
                 {
                     count++;
-                    this.treeView1.Nodes[num].Nodes.Add(new TreeNode( "模板" + modelindex.ToString() + "点位" + count.ToString()));
+                    this.treeView1.Nodes[num].Nodes[modelindex - 1].Nodes.Add(new TreeNode("点位" + count.ToString()));
                 }
             }
         }
@@ -60,18 +61,44 @@ namespace HZZH.ProjectUI
             foreach (SolderModel p in f4s)
             {
                 modelindex++;
+                this.treeView1.Nodes[num].Nodes.Add(new TreeNode("模板"));
                 foreach (SolderDef item in p.solderdata)
                 {
                     count++;
-                    this.treeView1.Nodes[num].Nodes.Add(new TreeNode("模板" + modelindex.ToString() + "点位" + count.ToString()));
+                    this.treeView1.Nodes[num].Nodes[modelindex - 1].Nodes.Add(new TreeNode("点位" + count.ToString()));
                 }
             }
         }
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
-           int RowCount = this.treeView1.SelectedNode.Index;
-            propertyGrid1.SelectedObject = ProjectData.Instance.SaveData.processdata.LPolishModel[0].polishData[RowCount];
-
+            int rowcount = treeView1.SelectedNode.Index;
+            
+            try
+            {
+                switch (treeView1.SelectedNode.Parent.Parent.Index)
+                {
+                    case 0:
+                        int a = treeView1.SelectedNode.Parent.Index;
+                        propertyGrid1.SelectedObject = ProjectData.Instance.SaveData.processdata.LPolishModel[a].polishData[rowcount];
+                        break;
+                    case 1:
+                        int b = treeView1.SelectedNode.Parent.Index;
+                        propertyGrid1.SelectedObject = ProjectData.Instance.SaveData.processdata.RPolishModel[b].polishData[rowcount];
+                        break;
+                    case 2:
+                        int c = treeView1.SelectedNode.Parent.Index;
+                        propertyGrid1.SelectedObject = ProjectData.Instance.SaveData.processdata.LSolderModel[c].solderdata[rowcount];
+                        break;
+                    case 3:
+                        int d = treeView1.SelectedNode.Parent.Index;
+                        propertyGrid1.SelectedObject = ProjectData.Instance.SaveData.processdata.RSolderModel[d].solderdata[rowcount];
+                        break;
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("当前平台没有点位可以编辑");
+            }
         }
         /// <summary>
         /// 窗体加载时默认加载左侧打磨模板
@@ -81,17 +108,15 @@ namespace HZZH.ProjectUI
         public void Point_Load()
         {
             this.treeView1.Nodes.Clear();
+            this.treeView1.Nodes.Add(new TreeNode("左打磨"));
+            this.treeView1.Nodes.Add(new TreeNode("右打磨"));
+            this.treeView1.Nodes.Add(new TreeNode("左焊锡"));
+            this.treeView1.Nodes.Add(new TreeNode("右焊锡"));
             LoadtreeViewPolish(ProjectData.Instance.SaveData.processdata.LPolishModel, 0);
             LoadtreeViewPolish(ProjectData.Instance.SaveData.processdata.RPolishModel, 1);
             LoadtreeViewSolder(ProjectData.Instance.SaveData.processdata.LSolderModel, 2);
             LoadtreeViewSolder(ProjectData.Instance.SaveData.processdata.RSolderModel, 3);
-
-
-        }
-
-        private void Point_Load(object sender, EventArgs e)
-        {
-            Point_Load();
+            treeView1.ExpandAll();
         }
     }
 }
