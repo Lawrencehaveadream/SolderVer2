@@ -115,7 +115,7 @@ namespace HZZH.Logic.LogicMission
                         LG.End();
                         stick1SpendTime.Stop();
                         para.SolderSpendTime = stick1SpendTime.ElapsedMilliseconds;
-                        //ProjectData.Instance.SaveData.processdata.PlatformData[ID * 4 + 1].IsTined = true;
+                        ProjectData.Instance.SaveData.processdata.PlatformData[ID * 4 + 1].IsTined = true;
                     }
                     break;
             }

@@ -118,6 +118,7 @@ namespace HZZH.Logic.LogicMission
                     if (DeviceRsDef.Axis_X5.status == 0 && DeviceRsDef.Axis_Z5.status == 0)
                     {
                         LG.ImmediateStepNext(0xef);
+                        ProjectData.Instance.SaveData.processdata.PlatformData[4].Isreversed = true;
                     }
                     break;
                 case 0xef:

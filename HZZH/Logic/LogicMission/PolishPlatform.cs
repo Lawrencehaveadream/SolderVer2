@@ -69,7 +69,6 @@ namespace HZZH.Logic.LogicMission
                 case 2://开始打磨拍照
                     if (DeviceRsDef.I_CylLocked.value || TaskManager.Default.FSM.MODE == 1)
                     {
-                        stick1SpendTime.Restart();
                         PolishCT.Start();
                         LG.ImmediateStepNext(3);
                     }
@@ -137,7 +136,7 @@ namespace HZZH.Logic.LogicMission
                         stick1SpendTime.Stop();
                         para.PolishSpendTime = stick1SpendTime.ElapsedMilliseconds;
                         LG.End();
-                        //ProjectData.Instance.SaveData.processdata.PlatformData[ID * 4 + 1].IsPolished = true;
+                        ProjectData.Instance.SaveData.processdata.PlatformData[ID * 4 + 1].IsPolished = true;
                     }
                     break;
 

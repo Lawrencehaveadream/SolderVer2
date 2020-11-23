@@ -156,6 +156,7 @@ namespace HZZH.ProjectUI
         }
         private void model_Shown(object sender, EventArgs e)
         {
+
         }
         private FrmMatchModel getMatchModel()
         {
@@ -173,112 +174,17 @@ namespace HZZH.ProjectUI
         }
         private void Initial()
         {
-
-
-
-            //tabControl1.SelectedIndex = 0;
-            //tabControl1.ItemSize = new Size(0, 1);
-            //tabControl1.Appearance = TabAppearance.FlatButtons;
-            //tabControl1.SizeMode = TabSizeMode.Fixed;
-
-            //tabControl2.SelectedIndex = 0;
-            //tabControl2.ItemSize = new Size(0, 1);
-            //tabControl2.Appearance = TabAppearance.FlatButtons;
-            //tabControl2.SizeMode = TabSizeMode.Fixed;
-
-
-            //frm_jog = new XYZ_Jog();
-            //frm_jog.TopLevel = false; //将子窗体设置成非最高层，非顶级控件
-            //frm_jog.FormBorderStyle = FormBorderStyle.None;//去掉窗体边框
-            //frm_jog.Size = this.panel3.Size;
-            //frm_jog.Parent = this.panel3;//指定子窗体显示的容器
-            //frm_jog.Dock = DockStyle.Fill;
-            //frm_jog.Show();
-            //frm_jog.Activate();
-            //propertyGrid1.SelectedObject = processData.test;
-
+            
         }
         private void DataBingdings()
         {
             try
             {
-                //Functions.SetBinding(numericUpDown1, "Value", ProductConfig.Inst.logicMain.LPolishPlatform..para, "X");
-                //Functions.SetBinding(numericUpDown2, "Value", VisionProject.Instance.visionTool.OffsetLeft, "X");
-                //Functions.SetBinding(numericUpDown4, "Value", VisionProject.Instance.visionTool.OffsetLeft, "X");
-                //Functions.SetBinding(numericUpDown3, "Value", VisionProject.Instance.visionTool.OffsetLeft, "X");
+
             }
             catch (Exception ex)
             {
                 MessageBox.Show("数据绑定有问题 " + ex.ToString());
-            }
-
-        }
-        private void SaveDataGridView(List<PointFB> teachList, DataGridView dataGridView)
-        {
-            try
-            {
-                for (int i = 0; i < dataGridView.Rows.Count; i++)
-                {
-                    teachList[i].X = Convert.ToSingle(dataGridView.Rows[i].Cells[1].Value);
-                    teachList[i].Y = Convert.ToSingle(dataGridView.Rows[i].Cells[2].Value);
-                    teachList[i].Ban = dataGridView.Rows[i].Cells[3].Value.ToString() == "启用" ? false : true;
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-            }
-        }
-        public void LoadDGVData(List<PointFB> teachList, DataGridView dataGridView)
-        {
-            dataGridView.Rows.Clear();
-            for (int i = 0; i < teachList.Count; i++)
-            {
-                #region 方法1
-
-                DataGridViewRow row = new DataGridViewRow();
-                DataGridViewTextBoxCell[] textboxcell = new DataGridViewTextBoxCell[7];
-                for (int j = 0; j < 7; j++)
-                {
-                    textboxcell[j] = new DataGridViewTextBoxCell();
-                }
-                DataGridViewCheckBoxCell checkBoxcell = new DataGridViewCheckBoxCell();
-
-                textboxcell[0].Value = i + 1;
-                row.Cells.Add(textboxcell[0]);
-                textboxcell[1].Value = teachList[i].Clone().X.ToString("f3");
-                row.Cells.Add(textboxcell[1]);
-                textboxcell[2].Value = teachList[i].Clone().Y.ToString("f3");
-                row.Cells.Add(textboxcell[2]);
-                textboxcell[3].Value = teachList[i].Clone().Ban ? "禁用" : "启用";
-                row.Cells.Add(textboxcell[3]);
-                dataGridView.Rows.Add(row);
-
-                if (i % 2 == 0)
-                {
-                    dataGridView.Rows[dataGridView.Rows.Count - 1].DefaultCellStyle.BackColor = System.Drawing.SystemColors.Window;
-                }
-                else
-                {
-                    dataGridView.Rows[dataGridView.Rows.Count - 1].DefaultCellStyle.BackColor = System.Drawing.SystemColors.Control;
-                }
-
-                #endregion
-            }
-            int index = 0;
-            dataGridView.Columns[index].FillWeight = 5;
-            index++;
-            dataGridView.Columns[index].FillWeight = 8;
-            index++;
-            dataGridView.Columns[index].FillWeight = 8;
-            index++;
-            dataGridView.Columns[index].FillWeight = 8;
-
-            int rownum = dataGridView.Rows.Count;
-
-            if (rownum != 0)
-            {
-                dataGridView.CurrentCell = dataGridView.Rows[rownum - 1].Cells[0];
             }
         }
         private int _curCameraIndex = -1;       //当前相机下标
@@ -441,6 +347,21 @@ namespace HZZH.ProjectUI
         {
             try
             {
+                switch (this._curCameraIndex)
+                {
+                    case 0:
+                        ProjectData.Instance.SaveData.processdata.LPolishModel.Add(new PolishModel());
+                        break;
+                    case 1:
+                        ProjectData.Instance.SaveData.processdata.RPolishModel.Add(new PolishModel());
+                        break;
+                    case 2:
+                        ProjectData.Instance.SaveData.processdata.LSolderModel.Add(new SolderModel());
+                        break;
+                    case 3:
+                        ProjectData.Instance.SaveData.processdata.RSolderModel.Add(new SolderModel());
+                        break;
+                }
                 if (!CheckRoutinueValid()) return;
                 if (this._imgTrain == null || this._imgTrain.IsInitialized() == false)
                 {
@@ -471,6 +392,21 @@ namespace HZZH.ProjectUI
             HObject ROI = null;
             try
             {
+                switch (this._curCameraIndex)//四个平台不同的模板添加的点的参数
+                {
+                    case 0:
+                        ProjectData.Instance.SaveData.processdata.LPolishModel[_curCameraIndex].polishData.Add(new PolishDef());
+                        break;
+                    case 1:
+                        ProjectData.Instance.SaveData.processdata.RPolishModel[_curCameraIndex].polishData.Add(new PolishDef());
+                        break;
+                    case 2:
+                        ProjectData.Instance.SaveData.processdata.LSolderModel[_curCameraIndex].solderdata.Add(new SolderDef());
+                        break;
+                    case 3:
+                        ProjectData.Instance.SaveData.processdata.RSolderModel[_curCameraIndex].solderdata.Add(new SolderDef());
+                        break;
+                }
                 if (!CheckRoutinueValid()) return;
                 if (!isCurCameraValid())
                 {
@@ -766,6 +702,51 @@ namespace HZZH.ProjectUI
         private void panelPreview_SizeChanged(object sender, EventArgs e)
         {
             updateUI_LayoutPreviewWindow();
+        }
+        /// <summary>
+        /// 四个平台模板界面切换
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void buttonLeftPolish_Click_1(object sender, EventArgs e)
+        {
+            Button[] Btn_color = new Button[4];
+            Btn_color[0] = buttonLeftPolish;
+            Btn_color[1] = buttonRightPolish;
+            Btn_color[2] = buttonLeftSolder;
+            Btn_color[3] = buttonRightSolder;
+            Button btn = (Button)sender;
+            switch (btn.Tag.ToInt32())
+            {
+                case 0:
+                    this._curCameraIndex = 0;
+                    Btn_color[0].BackColor = Color.Green; 
+                    Btn_color[1]. BackColor = SystemColors.ControlLight;
+                    Btn_color[2]. BackColor = SystemColors.ControlLight;
+                    Btn_color[3].BackColor = SystemColors.ControlLight;
+                    break;
+                case 1:
+                    this._curCameraIndex = 1;
+                    Btn_color[0].BackColor = SystemColors.ControlLight;
+                    Btn_color[1].BackColor = Color.Green;
+                    Btn_color[2].BackColor = SystemColors.ControlLight;
+                    Btn_color[3].BackColor = SystemColors.ControlLight;
+                    break;
+                case 2:
+                    this._curCameraIndex = 2;
+                    Btn_color[0].BackColor = SystemColors.ControlLight;
+                    Btn_color[1].BackColor = SystemColors.ControlLight;
+                    Btn_color[2].BackColor = Color.Green; 
+                    Btn_color[3].BackColor = SystemColors.ControlLight;
+                    break;
+                case 3:
+                    this._curCameraIndex = 3;
+                    Btn_color[0].BackColor = SystemColors.ControlLight;
+                    Btn_color[1].BackColor = SystemColors.ControlLight;
+                    Btn_color[2].BackColor = SystemColors.ControlLight;
+                    Btn_color[3].BackColor = Color.Green; 
+                    break;
+            }
         }
     }
 }

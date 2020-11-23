@@ -1,4 +1,5 @@
-﻿using ProVisionEbd.Logic;
+﻿using HZZH.Logic.Data;
+using ProVisionEbd.Logic;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,6 +17,7 @@ namespace HZZH.ProjectUI
         public Point()
         {
             InitializeComponent();
+            init();
         }
         private void init()
         {
@@ -32,39 +34,33 @@ namespace HZZH.ProjectUI
         /// 加载点位
         /// </summary>
         /// <param name="f4s"></param>
-        private void LoadtreeView1(VisisonData f4s)
+        private void LoadtreeView1(List<PolishModel> f4s)
         {
             int count = 0;
             this.treeView1.Nodes.Clear();
-            foreach (Model p in f4s.listModel)
+            foreach (PolishModel p in f4s)
             {
-                foreach (var item in p.ListPos)
+                foreach (PolishDef item in p.polishData)
                 {
                     count++;
-                    this.treeView1.Nodes[0].Nodes.Add(new TreeNode("点位" + count.ToString() +
-                        ":X:" + item.X.ToString("f2") +
-                        ";\r\n" + "Y:" + item.Y.ToString("f2") +
-                        ";\r\n" + "R:" + item.R.ToString("f2") + ";"));
-                    this.treeView1.Nodes[1].Nodes.Add(new TreeNode("点位" + count.ToString() +
-                        ":X:" + item.X.ToString("f2") +
-                        ";\r\n" + "Y:" + item.Y.ToString("f2") +
-                        ";\r\n" + "R:" + item.R.ToString("f2") + ";"));
+                    this.treeView1.Nodes.Add(new TreeNode("点位" + count.ToString()));
                 }
             }
         }
-        int count = 0;
-        private void button1_Click(object sender, EventArgs e)
-        {
-            count++;
-            treeView1.Nodes[0].Nodes.Add(new TreeNode("点位" + count.ToString() + ";"));
-            treeView1.Nodes[1].Nodes.Add(new TreeNode("点位" + count.ToString() + ";"));
-        }
-
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
            int RowCount = this.treeView1.SelectedNode.Index;
-            //propertyGrid1.SelectedObject = _polishPos[OperShapeIndex].pos[RowCount].polishDef;
+            propertyGrid1.SelectedObject = ProjectData.Instance.SaveData.processdata.LPolishModel[0].polishData[RowCount];
 
+        }
+        /// <summary>
+        /// 窗体加载时默认加载左侧打磨模板
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Point_Load(object sender, EventArgs e)
+        {
+            LoadtreeView1(ProjectData.Instance.SaveData.processdata.LPolishModel);
         }
     }
 }

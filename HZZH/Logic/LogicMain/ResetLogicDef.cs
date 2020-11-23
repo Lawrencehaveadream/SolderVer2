@@ -34,6 +34,7 @@ namespace HZZH.Logic.LogicMain
                     {
                         DeviceRsDef.AxisList[i].MC_Stop();
                     }
+                    LogicMission.BeltFeedFun.FromReset = true;
                     MachineAlarm.ClearAlarm();//清除报警
                     LG.ImmediateStepNext(10);
                     break;
@@ -71,7 +72,7 @@ namespace HZZH.Logic.LogicMain
 
                         //DeviceRsDef.Axis_R5.MC_Home();
                         //DeviceRsDef.Axis_X5.MC_Home();
-                        //DeviceRsDef.Axis_Belt.MC_Home();
+                        DeviceRsDef.Axis_Belt.MC_Home();
                         LG.ImmediateStepNext(3);
                     }
                     break;

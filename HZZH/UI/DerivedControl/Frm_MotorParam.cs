@@ -59,7 +59,7 @@ namespace HZZH.UI.DerivedControl
         {
             ConfigJog(control.Pos, button1);
             ConfigJog(control.Neg, button2);
-            ConfigJog(control.Hom, button3);
+            //ConfigJog(control.Hom, button3);
             ConfigJog(control.Stop, button4);
 
         }
@@ -159,7 +159,7 @@ namespace HZZH.UI.DerivedControl
         {
             Button _btn = sender as Button;
 
-            AxisHomeAction();
+            //AxisHomeAction();
         }
         private void btn_Stop_Click(object sender, EventArgs e)
         {
@@ -314,8 +314,12 @@ namespace HZZH.UI.DerivedControl
 
         private void button3_Click(object sender, EventArgs e)
         {
-            if (axis != null)
+            //if (axis != null)
+            //    axis.MC_Home();
+            if (MessageBox.Show("确定要执行此轴回零...", axis.AxisName, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
                 axis.MC_Home();
+            }
         }
         
 
@@ -339,6 +343,11 @@ namespace HZZH.UI.DerivedControl
         private void treeView1_DrawNode(object sender, DrawTreeNodeEventArgs e)
         {
             e.DrawDefault = true;
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+
         }
     }
 

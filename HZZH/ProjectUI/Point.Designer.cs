@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("机械坐标");
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("像素坐标");
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("机械坐标");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("像素坐标");
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.hWindowControl0 = new HalconDotNet.HWindowControl();
@@ -63,13 +63,13 @@
             this.treeView1.Location = new System.Drawing.Point(498, 0);
             this.treeView1.Margin = new System.Windows.Forms.Padding(0);
             this.treeView1.Name = "treeView1";
-            treeNode3.Name = "节点0";
-            treeNode3.Text = "机械坐标";
-            treeNode4.Name = "节点1";
-            treeNode4.Text = "像素坐标";
+            treeNode1.Name = "节点0";
+            treeNode1.Text = "机械坐标";
+            treeNode2.Name = "节点1";
+            treeNode2.Text = "像素坐标";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode3,
-            treeNode4});
+            treeNode1,
+            treeNode2});
             this.treeView1.Size = new System.Drawing.Size(249, 528);
             this.treeView1.TabIndex = 54;
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
@@ -113,6 +113,7 @@
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "Point";
             this.Text = "Point";
+            this.Load += new System.EventHandler(this.Point_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);

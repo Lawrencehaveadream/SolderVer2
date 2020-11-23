@@ -192,9 +192,10 @@
             this.buttonRightSolder.Name = "buttonRightSolder";
             this.buttonRightSolder.Size = new System.Drawing.Size(128, 64);
             this.buttonRightSolder.TabIndex = 7;
+            this.buttonRightSolder.Tag = "3";
             this.buttonRightSolder.Text = "右侧上锡";
             this.buttonRightSolder.UseVisualStyleBackColor = true;
-            this.buttonRightSolder.Click += new System.EventHandler(this.buttonRightSolder_Click);
+            this.buttonRightSolder.Click += new System.EventHandler(this.buttonLeftPolish_Click_1);
             // 
             // buttonLeftSolder
             // 
@@ -203,9 +204,10 @@
             this.buttonLeftSolder.Name = "buttonLeftSolder";
             this.buttonLeftSolder.Size = new System.Drawing.Size(128, 64);
             this.buttonLeftSolder.TabIndex = 6;
+            this.buttonLeftSolder.Tag = "2";
             this.buttonLeftSolder.Text = "左侧上锡";
             this.buttonLeftSolder.UseVisualStyleBackColor = true;
-            this.buttonLeftSolder.Click += new System.EventHandler(this.buttonLeftSolder_Click);
+            this.buttonLeftSolder.Click += new System.EventHandler(this.buttonLeftPolish_Click_1);
             // 
             // buttonRightPolish
             // 
@@ -214,9 +216,10 @@
             this.buttonRightPolish.Name = "buttonRightPolish";
             this.buttonRightPolish.Size = new System.Drawing.Size(128, 64);
             this.buttonRightPolish.TabIndex = 5;
+            this.buttonRightPolish.Tag = "1";
             this.buttonRightPolish.Text = "右侧打磨";
             this.buttonRightPolish.UseVisualStyleBackColor = true;
-            this.buttonRightPolish.Click += new System.EventHandler(this.buttonRightPolish_Click);
+            this.buttonRightPolish.Click += new System.EventHandler(this.buttonLeftPolish_Click_1);
             // 
             // buttonLeftPolish
             // 
@@ -225,9 +228,10 @@
             this.buttonLeftPolish.Name = "buttonLeftPolish";
             this.buttonLeftPolish.Size = new System.Drawing.Size(128, 64);
             this.buttonLeftPolish.TabIndex = 4;
+            this.buttonLeftPolish.Tag = "0";
             this.buttonLeftPolish.Text = "左侧打磨";
             this.buttonLeftPolish.UseVisualStyleBackColor = true;
-            this.buttonLeftPolish.Click += new System.EventHandler(this.buttonLeftPolish_Click);
+            this.buttonLeftPolish.Click += new System.EventHandler(this.buttonLeftPolish_Click_1);
             // 
             // panel6
             // 

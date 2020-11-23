@@ -723,20 +723,10 @@ namespace HZZH.Logic.UI
 
             VisionModule();
         }
-
-        private void toolStripButton4_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void button5_Click(object sender, EventArgs e)
         {
-            //TaskManager.Default.FindTask("左焊锡平台").Start();
-        }
-
-        private void button6_Click(object sender, EventArgs e)
-        {
-            DeviceRsDef.Axis_Belt.MC_MoveRel(100);
+            //DeviceRsDef.Axis_Belt.MC_MoveRel(230);
+            TaskManager.Default.FindTask("皮带流程").Start();
         }
     }
 }

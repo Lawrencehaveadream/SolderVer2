@@ -21,7 +21,7 @@ namespace HZZH.Logic.LogicMain
             switch (LG.Step)
             {
                 case 1:
-                    //TaskManager.Default.FindTask("皮带流程").Start();
+                    TaskManager.Default.FindTask("皮带流程").Start();
                     LG.ImmediateStepNext(2);
                     break;
                 case 2:
