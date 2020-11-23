@@ -78,7 +78,7 @@ namespace HZZH.ProjectUI
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void Point_Load(object sender, EventArgs e)
+        public void Point_Load()
         {
             this.treeView1.Nodes.Clear();
             LoadtreeViewPolish(ProjectData.Instance.SaveData.processdata.LPolishModel, 0);
@@ -87,6 +87,11 @@ namespace HZZH.ProjectUI
             LoadtreeViewSolder(ProjectData.Instance.SaveData.processdata.RSolderModel, 3);
 
 
+        }
+
+        private void Point_Load(object sender, EventArgs e)
+        {
+            Point_Load();
         }
     }
 }

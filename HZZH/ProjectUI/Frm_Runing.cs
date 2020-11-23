@@ -641,6 +641,7 @@ namespace HZZH.Logic.UI
                     point.Dock = DockStyle.Fill;
                     point.Show();
                     point.Activate();
+                    point.Point_Load();
                     break;
 
             }

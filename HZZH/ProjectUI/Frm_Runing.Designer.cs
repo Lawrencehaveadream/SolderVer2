@@ -340,7 +340,7 @@
             this.toolStripButton5.Tag = "9";
             this.toolStripButton5.Text = "工艺";
             this.toolStripButton5.Click += new System.EventHandler(this.toolStripButton1_Click);
-            this.toolStripButton5.Click += new System.EventHandler(this.point.Point_Load);
+            //this.toolStripButton5.Click += point.Point_Load;
             // 
             // miniToolStrip
             // 
