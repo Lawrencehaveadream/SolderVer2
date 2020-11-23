@@ -28,8 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("机械坐标");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("像素坐标");
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("左打磨");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("右打磨");
+            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("左焊锡");
+            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("右焊锡");
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.hWindowControl0 = new HalconDotNet.HWindowControl();
@@ -64,12 +66,18 @@
             this.treeView1.Margin = new System.Windows.Forms.Padding(0);
             this.treeView1.Name = "treeView1";
             treeNode1.Name = "节点0";
-            treeNode1.Text = "机械坐标";
+            treeNode1.Text = "左打磨";
             treeNode2.Name = "节点1";
-            treeNode2.Text = "像素坐标";
+            treeNode2.Text = "右打磨";
+            treeNode3.Name = "节点0";
+            treeNode3.Text = "左焊锡";
+            treeNode4.Name = "节点1";
+            treeNode4.Text = "右焊锡";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
             treeNode1,
-            treeNode2});
+            treeNode2,
+            treeNode3,
+            treeNode4});
             this.treeView1.Size = new System.Drawing.Size(249, 528);
             this.treeView1.TabIndex = 54;
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
